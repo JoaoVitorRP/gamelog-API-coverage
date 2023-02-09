@@ -16,6 +16,11 @@ beforeEach(async () => {
 });
 
 describe("GET /games", () => {
+  it("Should respond with status 404 when table is empty", async () => {
+    const response = await server.get("/games");
+    expect(response.status).toBe(404);
+  });
+
   it("Should respond with status 200 and with games data", async () => {
     const { genreData, platformData, gameData } = await createValidGame();
 

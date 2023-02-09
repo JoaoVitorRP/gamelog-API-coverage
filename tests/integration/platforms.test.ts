@@ -16,6 +16,11 @@ beforeEach(async () => {
 });
 
 describe("GET /platforms", () => {
+  it("Should respond with status 404 when table is empty", async () => {
+    const response = await server.get("/platforms");
+    expect(response.status).toBe(404);
+  });
+
   it("Should respond with status 200 and with platforms data", async () => {
     const platformData = await createPlatform();
 
