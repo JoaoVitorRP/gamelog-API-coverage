@@ -19,7 +19,6 @@ export async function postGame(req: Request, res: Response) {
     if (err.name === "DuplicatedGameName") return res.status(409).send(err.message);
     if (err.name === "GenreNotFound") return res.status(404).send(err.message);
     if (err.name === "PlatformNotFound") return res.status(404).send(err.message);
-    return res.status(500).send(err.message);
   }
 }
 
@@ -42,7 +41,6 @@ export async function getGames(req: Request, res: Response) {
   } catch (err) {
     if (err.name === "InvalidQuery") return res.status(400).send(err.message);
     if (err.name === "GamesNotFound") return res.status(404).send(err.message);
-    return res.status(500).send(err.message);
   }
 }
 
@@ -56,7 +54,6 @@ export async function patchGame(req: Request, res: Response) {
   } catch (err) {
     if (err.name === "GameNotFound") return res.status(404).send(err.message);
     if (err.name === "InvalidParam") return res.status(400).send(err.message);
-    return res.status(500).send(err.message);
   }
 }
 
@@ -69,7 +66,6 @@ export async function deleteGame(req: Request, res: Response) {
   } catch (err) {
     if (err.name === "GameNotFound") return res.status(404).send(err.message);
     if (err.name === "InvalidParam") return res.status(400).send(err.message);
-    return res.status(500).send(err.message);
   }
 }
 
@@ -79,7 +75,6 @@ export async function getPlaytimeAverage(req: Request, res: Response) {
 
     return res.status(200).send(`Your average playtime is: ${average.toFixed(2)} minutes`);
   } catch (err) {
-    if (err.name === "MissingGames") return res.status(400).send(err.message);
-    return res.status(500).send(err.message);
+    return res.status(400).send(err.message);
   }
 }

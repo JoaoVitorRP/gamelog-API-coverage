@@ -10,8 +10,7 @@ export async function postPlatform(req: Request, res: Response) {
 
     return res.sendStatus(201);
   } catch (err) {
-    if (err.name === "DuplicatedPlatformName") return res.status(409).send(err.message);
-    return res.status(500).send(err.message);
+    return res.status(409).send(err.message);
   }
 }
 

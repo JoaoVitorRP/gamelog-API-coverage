@@ -14,21 +14,15 @@ async function validatePlatformId(id: number) {
   return platforms;
 }
 
-async function validatePlatformName(platform: string) {
-  const platforms = await platformsRepository.findPlatformByName(platform);
-
-  if (platforms) {
+async function postPlatform(platformData: PlatformPostRequest) {
+  const duplicatedPlatform = await platformsRepository.findPlatformByName(platformData.platform);
+  if (duplicatedPlatform) {
     throw {
-      name: "DuplicatedPlatformName",
       message: "This platform already exists!",
     };
   }
-}
 
-async function postPlatform(platformData: PlatformPostRequest) {
-  await validatePlatformName(platformData.platform);
-
-  await platformsRepository.createPlatform(platformData);
+  return platformsRepository.createPlatform(platformData);
 }
 
 async function getPlatforms() {

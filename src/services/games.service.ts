@@ -14,11 +14,11 @@ async function validateUniqueGame(title: string) {
 }
 
 async function validateGameId(id: number) {
-  if(!id) {
+  if (!id) {
     throw {
       name: "InvalidParam",
-      message: "Id must be an integer"
-    }
+      message: "Id must be an integer",
+    };
   }
 
   const gameData = await gamesRepository.findGameById(id);
@@ -102,7 +102,6 @@ async function getAveragePlaytime() {
   const gameData = await gamesRepository.findGames();
   if (gameData.length <= 1) {
     throw {
-      name: "MissingGames",
       message: "Please, add two or more games before trying to calculate average playtime",
     };
   }

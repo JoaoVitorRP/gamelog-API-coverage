@@ -1,16 +1,6 @@
 import { GenrePostRequest } from "../protocols/index";
 import { genresRepository } from "../repositories/genres.repository";
 
-async function validateUniqueGenre(genre: string) {
-  const genreData = await genresRepository.findGenreByName(genre);
-  if (genreData) {
-    throw {
-      name: "DuplicatedGenreName",
-      message: "This genre already exists!",
-    };
-  }
-}
-
 async function validateGenreId(id: number) {
   const genreData = await genresRepository.findGenreById(id);
   if (!genreData) {
@@ -22,7 +12,12 @@ async function validateGenreId(id: number) {
 }
 
 async function createGenre(genreData: GenrePostRequest) {
-  await validateUniqueGenre(genreData.genre);
+  const duplicatedGenre = await genresRepository.findGenreByName(genreData.genre);
+  if (duplicatedGenre) {
+    throw {
+      message: "This genre already exists!",
+    };
+  }
 
   return genresRepository.createGenre(genreData);
 }

@@ -9,8 +9,7 @@ export async function insertGenre(req: Request, res: Response) {
     await genresService.createGenre(genre);
     return res.sendStatus(201);
   } catch (err) {
-    if (err.name === "DuplicatedGenreName") return res.status(409).send(err.message);
-    return res.status(500).send(err.message);
+    return res.status(409).send(err.message);
   }
 }
 
