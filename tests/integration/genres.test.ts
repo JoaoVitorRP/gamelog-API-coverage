@@ -1,6 +1,8 @@
+import { faker } from "@faker-js/faker";
 import supertest from "supertest";
 import app from "../../src/app";
-import { countGenres, createGenre } from "../factories";
+import prisma from "../../src/database/db";
+import { createGenre } from "../factories";
 import { cleanDb, disconnectDb } from "../helpers";
 
 const server = supertest(app);
@@ -15,7 +17,7 @@ beforeEach(async () => {
 
 describe("GET /genres", () => {
   it("Should respond with status 200 and with genres data", async () => {
-    const genreData = await createGenre("Aventura");
+    const genreData = await createGenre();
 
     const response = await server.get("/genres");
 
@@ -39,23 +41,33 @@ describe("POST /genres", () => {
   });
 
   it("Should respond with status 409 when genre already exists", async () => {
-    await createGenre("Aventura");
+    const genreData = await createGenre();
 
     const response = await server.post("/genres").send({
-      genre: "Aventura",
+      genre: genreData.genre,
     });
 
     expect(response.status).toBe(409);
   });
 
   it("Should respond with status 201 and insert a new genre in the database", async () => {
+    const genreName = faker.word.adjective();
+
     const response = await server.post("/genres").send({
-      genre: "Aventura",
+      genre: genreName,
     });
-
-    const entityCount = await countGenres();
-
     expect(response.status).toBe(201);
-    expect(entityCount).toEqual(1);
+
+    const entityCreated = await prisma.genres.findUnique({
+      where: {
+        genre: genreName,
+      },
+    });
+    expect(entityCreated).toEqual(
+      expect.objectContaining({
+        id: expect.any(Number),
+        genre: genreName,
+      })
+    );
   });
 });

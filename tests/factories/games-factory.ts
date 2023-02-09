@@ -4,7 +4,7 @@ import { createGenre } from "./genres-factory";
 import { createPlatform } from "./platforms-factory";
 
 export async function createValidGame(gameTitle: string, playtime: number, genre: string, platform: string) {
-  const genreData = await createGenre(genre);
+  const genreData = await createGenre();
   const platformData = await createPlatform();
   const game = {
     title: gameTitle,

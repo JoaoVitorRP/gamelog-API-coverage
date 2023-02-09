@@ -1,11 +1,10 @@
+import { faker } from "@faker-js/faker";
 import prisma from "../../src/database/db";
 
-export async function createGenre(genre: string) {
+export async function createGenre() {
   return prisma.genres.create({
-    data: { genre },
+    data: {
+      genre: faker.word.adjective(),
+    },
   });
-}
-
-export async function countGenres() {
-  return prisma.genres.count();
 }
