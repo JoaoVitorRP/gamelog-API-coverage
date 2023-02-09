@@ -34,7 +34,7 @@ async function getGames() {
   const games = await gamesRepository.findGames();
   if (games.length === 0) {
     throw {
-      name: "GameNotFound",
+      name: "GamesNotFound",
       message: "Games table is empty",
     };
   }
