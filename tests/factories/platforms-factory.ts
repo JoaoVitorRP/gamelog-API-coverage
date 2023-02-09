@@ -1,11 +1,10 @@
 import prisma from "../../src/database/db";
+import { faker } from "@faker-js/faker";
 
-export async function createPlatform(platform: string) {
+export async function createPlatform() {
   return prisma.platforms.create({
-    data: { platform },
+    data: {
+      platform: faker.internet.domainWord(),
+    },
   });
-}
-
-export async function countPlatforms() {
-  return prisma.platforms.count();
 }

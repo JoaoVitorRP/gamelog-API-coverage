@@ -1,6 +1,8 @@
+import { faker } from "@faker-js/faker";
 import supertest from "supertest";
 import app from "../../src/app";
-import { countPlatforms, createPlatform } from "../factories";
+import prisma from "../../src/database/db";
+import { createPlatform } from "../factories";
 import { cleanDb, disconnectDb } from "../helpers";
 
 const server = supertest(app);
@@ -15,7 +17,7 @@ beforeEach(async () => {
 
 describe("GET /platforms", () => {
   it("Should respond with status 200 and with platforms data", async () => {
-    const platformData = await createPlatform("Steam");
+    const platformData = await createPlatform();
 
     const response = await server.get("/platforms");
 
@@ -39,23 +41,32 @@ describe("POST /platforms", () => {
   });
 
   it("Should respond with status 409 when platform already exists", async () => {
-    await createPlatform("Steam");
+    const platformData = await createPlatform();
 
     const response = await server.post("/platforms").send({
-      platform: "Steam",
+      platform: platformData.platform,
     });
 
     expect(response.status).toBe(409);
   });
 
   it("Should respond with status 201 and insert a new platform in the database", async () => {
+    const platformName = faker.internet.domainWord();
     const response = await server.post("/platforms").send({
-      platform: "Steam",
+      platform: platformName,
     });
-
-    const entityCount = await countPlatforms();
-
     expect(response.status).toBe(201);
-    expect(entityCount).toEqual(1);
+
+    const entityCreated = await prisma.platforms.findUnique({
+      where: {
+        platform: platformName,
+      },
+    });
+    expect(entityCreated).toEqual(
+      expect.objectContaining({
+        id: expect.any(Number),
+        platform: platformName,
+      })
+    );
   });
 });
