@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/server.ts",
     "prisma:migrate:dev": "npx dotenv -e .env.development npx prisma migrate dev --name dev postgres-init",
     "prisma:migrate:test": "npx dotenv -e .env.test npx prisma migrate dev --name tests postgres-init",
     "prisma:seed": "npx prisma db seed",
-    "jest": "cross-env NODE_ENV=test jest --passWithNoTests --runInBand"
+    "test": "cross-env NODE_ENV=test jest --passWithNoTests --runInBand",
+    "test:coverage": "npm run test -- --coverage"
   },
   "prisma": {
     "seed": "ts-node prisma/seed.ts"
