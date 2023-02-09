@@ -29,7 +29,13 @@ Após criar essa nova database, precisamos criar um novo .env chamado .env.test,
 
 Com isso, podemos executar o comando `npm run prisma:migrate:test` para que sejam criadas tabelas iguais as da database de development.
 
-Concluído esses passos, o projeto está pronto para ser testado através do comando `npm run jest`.
+Concluído esses passos, o projeto está pronto para ser testado através do comando `npm run test`.
+
+# Métricas:
+
+Caso deseje-se checar as métricas dos testes criados nesse projeto, pode-se rodar o comando `npm run test:coverage`.
+
+Esse comando irá gerar uma pasta `coverage`, dentro da qual deve-se acessar a pasta `lcov-report` e rodar o arquivo `index.html` (recomenda-se usar a extensão para o VSCode chamada Live Server). Ao abrir o site relacionado a esse arquivo, poderá verificar-se todas as métricas dos testes desse projeto.
 
 # Rotas:
 
