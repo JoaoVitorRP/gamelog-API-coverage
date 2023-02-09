@@ -20,6 +20,6 @@ export async function getPlatforms(req: Request, res: Response) {
 
     return res.status(200).send(platforms);
   } catch (err) {
-    return res.status(500).send(err.message);
+    return res.status(404).send(err.message);
   }
 }

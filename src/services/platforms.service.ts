@@ -26,7 +26,13 @@ async function postPlatform(platformData: PlatformPostRequest) {
 }
 
 async function getPlatforms() {
-  return platformsRepository.findPlatforms();
+  const platforms = await platformsRepository.findPlatforms();
+  if (platforms.length === 0) {
+    throw {
+      message: "Platforms table is empty",
+    };
+  }
+  return platforms;
 }
 
 export const platformsService = {

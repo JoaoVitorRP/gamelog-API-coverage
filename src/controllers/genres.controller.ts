@@ -18,6 +18,6 @@ export async function getGenres(req: Request, res: Response) {
     const genres = await genresService.getGenres();
     return res.status(200).send(genres);
   } catch (err) {
-    return res.status(500).send(err.message);
+    return res.status(404).send(err.message);
   }
 }

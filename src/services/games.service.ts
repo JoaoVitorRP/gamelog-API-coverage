@@ -32,7 +32,12 @@ async function validateGameId(id: number) {
 
 async function getGames() {
   const games = await gamesRepository.findGames();
-
+  if (games.length === 0) {
+    throw {
+      name: "GameNotFound",
+      message: "Games table is empty",
+    };
+  }
   return games;
 }
 

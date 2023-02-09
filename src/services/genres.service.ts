@@ -22,8 +22,14 @@ async function createGenre(genreData: GenrePostRequest) {
   return genresRepository.createGenre(genreData);
 }
 
-function getGenres() {
-  return genresRepository.findGenres();
+async function getGenres() {
+  const genres = await genresRepository.findGenres();
+  if (genres.length === 0) {
+    throw {
+      message: "Genres table is empty",
+    };
+  }
+  return genres;
 }
 
 export const genresService = {
